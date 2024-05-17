@@ -7,6 +7,6 @@ A new Flutter project.
 - flutter pub get
 
 # How to use the newApp
-- scroll horizontally and click on the category button to view the different category of news article
-- scroll verticallt to view all the news article
-- click on back button to go to homepage to change the news article category
+- scroll horizontally and click on the category button to view the different category of news article.
+- scroll vertically to view all the news article.
+- click on back button to go to homepage to change the news article category.
