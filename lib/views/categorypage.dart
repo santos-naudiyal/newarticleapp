@@ -5,6 +5,7 @@ import 'package:newsapp/helper/categorydata.dart';
 import 'package:newsapp/helper/newsdata.dart';
 import 'package:newsapp/model/categorymodel.dart';
 import 'package:newsapp/model/newsmodel.dart';
+import 'package:newsapp/views/article_detail.dart';
 import 'package:newsapp/views/categoryTile.dart';
 import 'package:newsapp/views/newstemplate.dart';
 
@@ -36,6 +37,13 @@ class _CategoryFragmentState extends State<CategoryFragment> {
     getNews();
   }
 
+Future<void> _refreshNews() async {
+    setState(() {
+      _loading = true;
+    });
+    await getNews();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,31 +65,45 @@ class _CategoryFragmentState extends State<CategoryFragment> {
 
       // Category Widgets
 
+
+
+      
+
+
       body: _loading
           ? Center(
               child: CircularProgressIndicator(),
             ): 
-            SingleChildScrollView(
-          child: Container(
-        child: ListView.builder(
-          itemCount: articles.length,
-          physics: ClampingScrollPhysics(),
-          shrinkWrap: true,
-          itemBuilder: (context, index) {
-            return NewsTemplate(
-              urlToImage: articles[index].urlToImage,
-              title: articles[index].title,
-              description: articles[index].description,
-              url: articles[index].url,
-            );
-          },
-        ),
-      )),
+            RefreshIndicator( onRefresh: _refreshNews,
+            child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Container(
+                    child: ListView.builder(
+                    itemCount: articles.length,
+                    physics: ClampingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                                  return NewsTemplate(
+                                    urlToImage: articles[index].urlToImage,
+                                    title: articles[index].title,
+                                    description: articles[index].description,
+                                    url: articles[index].url,
+                                    article: articles[index],
+                                  );
+                          },
+                        ),
+                      ),
+                  )),
+            ),
     );
   }
 }
 
 
+
+
+/*
 class NewsTemplate extends StatelessWidget {
   String title, description, url, urlToImage;
   NewsTemplate(
@@ -122,3 +144,59 @@ class NewsTemplate extends StatelessWidget {
     );
   }
 }
+*/
+
+class NewsTemplate extends StatelessWidget {
+  final String? urlToImage;
+  final String title;
+  final String description;
+  final String url;
+  final ArticleModel article;
+
+  const NewsTemplate({
+    super.key,
+    required this.urlToImage,
+    required this.title,
+    required this.description,
+    required this.url,
+    required this.article,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ArticleDetail(article: article),
+          ),
+        );
+      },
+      child: Container(
+        margin: EdgeInsets.only(bottom: 12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (urlToImage != null)
+              Image.network(urlToImage!),
+            SizedBox(height: 8.0),
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 4.0),
+            Text(
+              description,
+              style: TextStyle(fontSize: 14.0),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
