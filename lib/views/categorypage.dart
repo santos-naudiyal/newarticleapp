@@ -64,13 +64,8 @@ Future<void> _refreshNews() async {
           )),
 
       // Category Widgets
-
-
-
-      
-
-
-      body: _loading
+        
+        body: _loading
           ? Center(
               child: CircularProgressIndicator(),
             ): 
@@ -100,31 +95,28 @@ Future<void> _refreshNews() async {
   }
 }
 
-
-
-
-
-
 class NewsTemplate extends StatelessWidget {
-  final String? urlToImage;
-  final String title;
-  final String description;
-  final String url;
+  final String urlToImage, title, url;
   final ArticleModel article;
 
   const NewsTemplate({
-    super.key,
+    Key? key,
     required this.urlToImage,
     required this.title,
-    required this.description,
     required this.url,
-    required this.article,
-  });
+    required this.article, required String description,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
+    return Card(
+      margin: EdgeInsets.only(bottom: 12.0),
+      elevation: 5.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: InkWell(
+         onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -132,25 +124,27 @@ class NewsTemplate extends StatelessWidget {
           ),
         );
       },
-      child: Container(
-        margin: EdgeInsets.only(bottom: 12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (urlToImage != null)
-              Image.network(urlToImage!),
-            SizedBox(height: 8.0),
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
+            ClipRRect(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(10.0)),
+              child: Image.network(
+                urlToImage,
+                height: 200.0,
+                width: double.infinity,
+                fit: BoxFit.cover,
               ),
             ),
-            SizedBox(height: 4.0),
-            Text(
-              description,
-              style: TextStyle(fontSize: 14.0),
+            Padding(
+              padding: EdgeInsets.all(10.0),
+              child: Text(
+                title,
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ],
         ),
@@ -158,4 +152,5 @@ class NewsTemplate extends StatelessWidget {
     );
   }
 }
+
 

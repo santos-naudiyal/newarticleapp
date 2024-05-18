@@ -1,6 +1,3 @@
-
-
-
 import 'package:flutter/material.dart';
 import 'package:newsapp/helper/categorydata.dart';
 import 'package:newsapp/helper/newsdata.dart';
@@ -10,14 +7,13 @@ import 'package:newsapp/views/categoryTile.dart';
 import 'package:newsapp/views/newstemplate.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  
   // Get our categories list
   List<CategoryModel> categories = [];
 
@@ -34,7 +30,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   getNews() async {
-    
     News newsdata = News();
     await newsdata.getNews();
     setState(() {
@@ -53,10 +48,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
-      
       appBar: AppBar(
-        
         
         backgroundColor: Colors.white,
         elevation: 0.0,
@@ -112,9 +104,9 @@ class _HomePageState extends State<HomePage> {
                             return NewsTemplate(
                               urlToImage: articles[index].urlToImage,
                               title: articles[index].title,
-                              description: articles[index].description,
                               url: articles[index].url,
                               article: articles[index],
+                              description: articles[index].description, 
                             );
                           },
                         ),
@@ -127,6 +119,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
 
 
 
