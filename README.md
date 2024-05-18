@@ -10,3 +10,6 @@ A new Flutter project.
 - scroll horizontally and click on the category button to view the different category of news article.
 - scroll vertically to view all the news article.
 - click on back button to go to homepage to change the news article category.
+
+# The Article data is fetch using https://newsapi.org/ Api
+-  All the category of Api is fetch from newapi.org
